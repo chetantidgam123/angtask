@@ -1,1 +1,129 @@
-<p>admin-users works!</p>
+<div class="container mt-2">
+    <div class="my-2">
+        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#useraddModel"
+            (click)="addUserModel('add')">Add User +</button>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th> Sr.No</th>
+                    <th> First Name</th>
+                    <th> Last Name</th>
+                    <th> Email</th>
+                    <th> Phone</th>
+                    <th> Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of userData; let i =index">
+                    <td>{{i+1}}</td>
+                    <td>{{item.firstname}}</td>
+                    <td>{{item.lastname}}</td>
+                    <td>{{item.email}}</td>
+                    <td>{{item.phone}}</td>
+                    <td>
+                        <div class="d-flex" style="align-items: center;">
+                            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#useraddModel"
+                                (click)="addUserModel('edit',item)"><i class="fa fa-pencil"></i></button>
+                            <button class="btn btn-danger mx-2" (click)="removeUser(item._id)"><i
+                                    class="fa fa-trash"></i></button>
+                            <button class="btn btn-danger mx-2" (click)="gotoContact(item._id)"><i
+                                    class="fa fa-user"></i></button>
+                            <div class="form-check form-switch" ngbTooltip="status">
+                                <input class="form-check-input" name="switch" (change)="getvalue($event,item._id)"
+                                    type="checkbox" role="switch" id="flexSwitchCheckChecked"
+                                    [checked]="item.status==1?true:false">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="loader">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </tr>
+                <tr *ngIf="!loader && userData.length==0 ">
+                    <td colspan="7">
+                        <div class="d-flex justify-content-center">
+                            <h3>No data Found....</h3>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="useraddModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="useraddModelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="useraddModelLabel">Add Contact</h1>
+                <button type="button" id="close1" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="" [formGroup]="form">
+                    <div class="mb-2">
+                        <label for="firstname" class="col-sm-2 col-form-label">Firstname</label>
+                        <div class="">
+                            <input type="text" formControlName="firstname" name="firstname" class="form-control"
+                                id="firstname">
+                        </div>
+                        <small *ngIf="form.controls['firstname'].invalid  && submitted" class="text-danger">Name
+                            Required</small>
+                    </div>
+                    <div class="mb-2">
+                        <label for="lastname" class="col-sm-2 col-form-label">Lastname</label>
+                        <div class="">
+                            <input type="text" formControlName="lastname" name="lastname" class="form-control"
+                                id="lastname">
+                        </div>
+                        <small *ngIf="form.controls['lastname'].invalid  && submitted" class="text-danger">lastname
+                            Required</small>
+
+                    </div>
+                    <div class="mb-2">
+                        <label for="email" class="col-sm-2 col-form-label">Email</label>
+                        <div class="">
+                            <input type="text" formControlName="email" name="email" class="form-control" id="email">
+                        </div>
+                        <small *ngIf="form.controls['email'].invalid  && submitted" class="text-danger">email
+                            Required</small>
+
+                    </div>
+                    <div class="mb-2" *ngIf="modalType=='add'">
+                        <label for="password" class="col-sm-2 col-form-label">Password</label>
+                        <div class="">
+                            <input type="password" formControlName="password" name="password" class="form-control"
+                                id="password">
+                        </div>
+                        <small *ngIf="form.controls['password'].invalid  && submitted" class="text-danger">password
+                            Required</small>
+
+                    </div>
+                    <div class="mb-2">
+                        <label for="Phone" class="col-sm-2 col-form-label">Phone</label>
+                        <div class="">
+                            <input type="text" formControlName="phone" name="Phone" class="form-control" id="Phone"
+                                maxlength="10">
+                        </div>
+                        <small *ngIf="form.controls['phone'].invalid  && submitted" class="text-danger">Phone
+                            Required</small>
+                    </div>
+                    <div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button *ngIf="modalType=='add'" class="btn btn-primary mx-2" (click)="signup()">Add User</button>
+                <button *ngIf="modalType=='edit'" class="btn btn-primary mx-2" (click)="updateUser()">Update
+                    User</button>
+            </div>
+        </div>
+    </div>
+</div>

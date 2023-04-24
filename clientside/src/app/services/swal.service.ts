@@ -22,7 +22,7 @@ export class SwalService {
       timer: 2000
     });
   }
-  
+
   toast_error(msg: any) {
     Swal.fire({
       position: 'top-right',
@@ -36,8 +36,8 @@ export class SwalService {
   }
 
 
-  delete(callback:any,confirm_btnName:any='') {
-    if(confirm_btnName==''){
+  delete(callback: any, confirm_btnName: any = '') {
+    if (confirm_btnName == '') {
       confirm_btnName = 'Yes, delete it!'
     }
     Swal.fire({
@@ -48,22 +48,34 @@ export class SwalService {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, delete it!'
-    }).then((result)   =>  {
+    }).then((result) => {
       callback(result);
     })
   }
 
-cancel_order(callback:any) {
-  Swal.fire({
-    title: 'Are you sure?',
-    text: "Your order will be moved to cancelled orders",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, Cancel it!'
-  }).then((result)   =>  {
-    callback(result);
-  })
-}
+  cancel_order(callback: any) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Your order will be moved to cancelled orders",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Cancel it!'
+    }).then((result) => {
+      callback(result);
+    })
+  }
+  logout(callback: any) {
+    Swal.fire({
+      title: 'Are you sure?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#007bd4',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Logout'
+    }).then((result) => {
+      callback(result);
+    })
+  }
 }

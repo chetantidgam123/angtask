@@ -1,17 +1,66 @@
-<div class="col-5 mx-auto mt-5">
-    <div class="mb-3">
-      <label for="email"  class="col-sm-2 col-form-label">Email</label>
-      <div class="col-sm-10">
-        <input type="text" name="email" class="form-control" id="email" [(ngModel)]="data.email">
-      </div>
+<div *ngIf="type=='login'" class="col-5 mx-auto mt-5">
+  <div class="mb-3">
+    <label for="email" class="col-sm-2 col-form-label">Email</label>
+    <div class="col-sm-10">
+      <input type="text" name="email" class="form-control" id="email" [(ngModel)]="data.email">
     </div>
-    <div class="mb-3">
-      <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-      <div class="col-sm-10">
-        <input type="password" class="form-control" name="password" id="inputPassword" [(ngModel)]="data.password">
+  </div>
+  <div class="mb-3">
+    <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" name="password" id="inputPassword" [(ngModel)]="data.password">
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-primary mx-2" (click)="login()">Login</button>
+    <button class="btn btn-outline-primary btn-block" (click)="toggle('register')">Dont have a Account? Register
+      here</button>
+  </div>
+</div>
+<div *ngIf="type=='register'" class="col-5 mx-auto mt-5">
+  <form action="" [formGroup]="form">
+    <div class="mb-2">
+      <label for="firstname" class="col-sm-2 col-form-label">Firstname</label>
+      <div class="">
+        <input type="text" formControlName="firstname" name="firstname" class="form-control" id="firstname">
       </div>
+      <small *ngIf="form.controls['firstname'].invalid  && submitted" class="text-danger">Name Required</small>
+    </div>
+    <div class="mb-2">
+      <label for="lastname" class="col-sm-2 col-form-label">Lastname</label>
+      <div class="">
+        <input type="text" formControlName="lastname" name="lastname" class="form-control" id="lastname">
+      </div>
+      <small *ngIf="form.controls['lastname'].invalid  && submitted" class="text-danger">lastname Required</small>
+
+    </div>
+    <div class="mb-2">
+      <label for="email" class="col-sm-2 col-form-label">Email</label>
+      <div class="">
+        <input type="text" formControlName="email" name="email" class="form-control" id="email">
+      </div>
+      <small *ngIf="form.controls['email'].invalid  && submitted" class="text-danger">email Required</small>
+
+    </div>
+    <div class="mb-2">
+      <label for="password" class="col-sm-2 col-form-label">Password</label>
+      <div class="">
+        <input type="password" formControlName="password" name="password" class="form-control" id="password">
+      </div>
+      <small *ngIf="form.controls['password'].invalid  && submitted" class="text-danger">password Required</small>
+
+    </div>
+    <div class="mb-2">
+      <label for="Phone" class="col-sm-2 col-form-label">Phone</label>
+      <div class="">
+        <input type="text" formControlName="phone" name="Phone" class="form-control" id="Phone" maxlength="10">
+      </div>
+      <small *ngIf="form.controls['phone'].invalid  && submitted" class="text-danger">Phone Required</small>
     </div>
     <div>
-        <button class="btn btn-primary" (click)="login()">Login</button>
+      <button class="btn btn-primary mx-2" (click)="signup()">Sign Up</button>
+      <button class="btn btn-outline-primary btn-block" (click)="toggle('login')">Already have a Account? Login
+        here</button>
     </div>
+  </form>
 </div>

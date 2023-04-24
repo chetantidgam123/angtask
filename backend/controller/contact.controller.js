@@ -8,15 +8,41 @@ const addContact = async (req, res) => {
       let Bearer = req.headers["authorization"]
       let splittoken = Bearer.split(" ")
       let token = splittoken[1]
-      var user =  jwt_decode(token, token_secret)
-      const { fullname, address, zip, phone,email } = req.body
+      var user = jwt_decode(token, token_secret)
+      const { fullname, address, zip, phone, email } = req.body
       let createdBy = ''
-      if(user.role=='user'){
+      if (user.role == 'user') {
          createdBy = user.fullname
-      }else{
-         createdBy =user.role
+      } else {
+         createdBy = user.role
       }
-      let contact = await contactModel.create({userId:user.userId, fullname: fullname, address: address, zip: zip, phone: phone, email: email,createdBy:createdBy });
+      let contact = await contactModel.create({ userId: user.userId, fullname: fullname, address: address, zip: zip, phone: phone, email: email, createdBy: createdBy });
+      if (contact) {
+         return res.send({
+            code: 200,
+            data: contact,
+            status: true,
+            message: "Contact Added succefully"
+         })
+      } else {
+         return res.send({
+            code: 404,
+            status: false,
+            message: "Invalid details"
+         })
+      }
+   } catch (error) {
+      return res.send({
+         code: 500,
+         status: false,
+         message: error
+      })
+   }
+}
+const addContactByAdmin = async (req, res) => {
+   try {
+      const { fullname, address, zip, phone, email, userId } = req.body
+      let contact = await contactModel.create({ userId: userId, fullname: fullname, address: address, zip: zip, phone: phone, email: email, createdBy: 'admin' });
       if (contact) {
          return res.send({
             code: 200,
@@ -43,7 +69,7 @@ const addContact = async (req, res) => {
 const updateContact = async (req, res) => {
    try {
       const { id } = req.params
-      const { fullname, address, zip, phone,email } = req.body
+      const { fullname, address, zip, phone, email } = req.body
       let existing_cont = await contactModel.findOneAndUpdate({ _id: id },
          {
             '$set': {
@@ -124,23 +150,23 @@ const getContactsByUser = async (req, res) => {
       let Bearer = req.headers["authorization"]
       let splittoken = Bearer.split(" ")
       let token = splittoken[1]
-      var user =  jwt_decode(token, token_secret)
-      let contacts = await contactModel.find({userId:user.userId })
-      if(contacts){
+      var user = jwt_decode(token, token_secret)
+      let contacts = await contactModel.find({ userId: user.userId })
+      if (contacts) {
          return res.send({
             code: 200,
             data: contacts,
             status: true,
             message: ""
          })
-      }else{
+      } else {
          return res.send({
             code: 404,
             data: [],
             status: false,
             message: ""
          })
-         
+
       }
    } catch (error) {
       return res.send({
@@ -149,7 +175,37 @@ const getContactsByUser = async (req, res) => {
          status: false,
          message: error
       })
-      
+
+   }
+}
+const getContactsByUserById = async (req, res) => {
+   let userId = req.params.id
+   try {
+      let contacts = await contactModel.find({ userId: userId })
+      if (contacts) {
+         return res.send({
+            code: 200,
+            data: contacts,
+            status: true,
+            message: ""
+         })
+      } else {
+         return res.send({
+            code: 404,
+            data: [],
+            status: false,
+            message: ""
+         })
+
+      }
+   } catch (error) {
+      return res.send({
+         code: 500,
+         data: [],
+         status: false,
+         message: error
+      })
+
    }
 }
 
@@ -159,5 +215,7 @@ module.exports = {
    getContactById,
    updateContact,
    removeContact,
-   getContactsByUser
+   getContactsByUser,
+   getContactsByUserById,
+   addContactByAdmin
 }

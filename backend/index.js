@@ -18,7 +18,7 @@ app.use('/', authRouter)
 
 connect()
     .then(() => {
-        app.listen(4000, () => {
-            console.log('Server listening at http://localhost:4000')
+        app.listen(3036, () => {
+            console.log('Server listening at http://localhost:3036')
         });
     })

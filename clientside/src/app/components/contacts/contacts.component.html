@@ -1,101 +1,126 @@
 <div class="container mt-2">
-    <div class="my-2">
-        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="addContactModel('add')">Add Contact +</button>
-    </div>
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th> Sr.No</th>
-                    <th> Full Name</th>
-                    <th> Email</th>
-                    <th> Address</th>
-                    <th> Phone</th>
-                    <th> Created By</th>
-                    <th> Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of contactData; let i =index">
-                    <td>{{i+1}}</td>
-                    <td>{{item.fullname}}</td>
-                    <td>{{item.email}}</td>
-                    <td>{{item.address}}</td>
-                    <td>{{item.phone}}</td>
-                    <td>{{item.createdBy}}</td>
-                    <td>
-                        <div class="d-flex" style="align-items: center;">
-                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="addContactModel('edit',item)"><i class="fa fa-pencil"></i></button>
-                        <button class="btn btn-danger mx-2" (click)="removeContact(item)"><i class="fa fa-trash"></i></button>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" [(ngModel)]="item.checked">
-                          <!-- <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label> -->
-                        </div>
-                    </div>
-                </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+  <div class="my-2">
+    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+      (click)="addContactModel('add')">Add Contact +</button>
+  </div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th> Sr.No</th>
+          <th> Full Name</th>
+          <th> Email</th>
+          <th> Address</th>
+          <th> Phone</th>
+          <th> Created By</th>
+          <th> Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of contactData; let i =index">
+          <td>{{i+1}}</td>
+          <td>{{item.fullname}}</td>
+          <td>{{item.email}}</td>
+          <td>{{item.address}}</td>
+          <td>{{item.phone}}</td>
+          <td>{{item.createdBy}}</td>
+          <td>
+            <div class="d-flex" style="align-items: center;">
+              <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                (click)="addContactModel('edit',item)"><i class="fa fa-pencil"></i></button>
+              <button class="btn btn-danger mx-2" (click)="removeContact(item)"><i class="fa fa-trash"></i></button>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
+                  [(ngModel)]="item.checked">
+                <!-- <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label> -->
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="loader">
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </tr>
+        <tr *ngIf="!loader && contactData.length==0 ">
+          <td colspan="7">
+            <div class="d-flex justify-content-center">
+              <h3>No data Found....</h3>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 <!-- Button trigger modal -->
 
-  <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Contact</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close"></button>
-        </div>
-        <div class="modal-body">
-          <form action="" [formGroup]="form">
-            <div class="mb-2">
-                <label for="fullname"   class="col-sm-2 col-form-label">Fullname</label>
-                <div class="">
-                  <input type="text" formControlName="fullname" name="fullname" class="form-control" id="fullname">
-                </div>
-                <small *ngIf="form.controls['fullname'].invalid  && submitted"  class="text-danger">Name Required</small>
-              </div>
-            <div class="mb-2">
-                <label for="address"   class="col-sm-2 col-form-label">Address</label>
-                <div class="">
-                  <textarea type="text" formControlName="address" name="address" class="form-control" id="address" ></textarea>
-                </div>
-                <small *ngIf="form.controls['address'].invalid  && submitted"  class="text-danger">Address Required</small>
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Contact</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" [formGroup]="form">
+          <div class="mb-2">
+            <label for="fullname" class="col-sm-2 col-form-label">Fullname</label>
+            <div class="">
+              <input type="text" formControlName="fullname" name="fullname" class="form-control" id="fullname">
+            </div>
+            <small *ngIf="form.controls['fullname'].invalid  && submitted" class="text-danger">Name Required</small>
+          </div>
+          <div class="mb-2">
+            <label for="address" class="col-sm-2 col-form-label">Address</label>
+            <div class="">
+              <textarea type="text" formControlName="address" name="address" class="form-control"
+                id="address"></textarea>
+            </div>
+            <small *ngIf="form.controls['address'].invalid  && submitted" class="text-danger">Address Required</small>
 
-              </div>
-            <div class="mb-2">
-                <label for="Zip"  class="col-sm-2 col-form-label">Zip</label>
-                <div class="">
-                  <input type="text" formControlName="zip"  name="zip" class="form-control" id="Zip">
-                </div>
-                <small *ngIf="form.controls['zip'].invalid  && submitted"  class="text-danger">Zip Required</small>
+          </div>
+          <div class="mb-2">
+            <label for="Zip" class="col-sm-2 col-form-label">Zip</label>
+            <div class="">
+              <input type="text" formControlName="zip" name="zip" class="form-control" id="Zip">
+            </div>
+            <small *ngIf="form.controls['zip'].invalid  && submitted" class="text-danger">Zip Required</small>
 
-              </div>
-            <div class="mb-2">
-                <label for="email"  class="col-sm-2 col-form-label">Email</label>
-                <div class="">
-                  <input type="text" formControlName="email" name="email" class="form-control" id="email">
-                </div>
-                <small *ngIf="form.controls['email'].invalid  && submitted"  class="text-danger">Email Required</small>
+          </div>
+          <div class="mb-2">
+            <label for="email" class="col-sm-2 col-form-label">Email</label>
+            <div class="">
+              <input type="text" formControlName="email" name="email" class="form-control" id="email">
+            </div>
+            <small *ngIf="form.controls['email'].invalid  && submitted" class="text-danger">Email Required</small>
 
-              </div>
-            <div class="mb-2">
-                <label for="Phone"  class="col-sm-2 col-form-label">Phone</label>
-                <div class="">
-                  <input type="text" formControlName="phone" name="Phone" class="form-control" id="Phone" maxlength="10">
-                </div>
-                <small *ngIf="form.controls['phone'].invalid  && submitted"  class="text-danger">Phone Required</small>
+          </div>
+          <div class="mb-2">
+            <label for="Phone" class="col-sm-2 col-form-label">Phone</label>
+            <div class="">
+              <input type="text" formControlName="phone" name="Phone" class="form-control" id="Phone" maxlength="10">
+            </div>
+            <small *ngIf="form.controls['phone'].invalid  && submitted" class="text-danger">Phone Required</small>
 
-              </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button *ngIf="modalType=='add'" type="button" class="btn btn-primary" (click)="addContact()">Add</button>
-          <button *ngIf="modalType=='edit'" type="button" class="btn btn-primary" (click)="updateContact()">Update</button>
-        </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button *ngIf="modalType=='add' && userId==''" type="button" class="btn btn-primary"
+          (click)="addContact()">Add</button>
+        <button *ngIf="modalType=='edit' && userId==''" type="button" class="btn btn-primary"
+          (click)="updateContact()">Update</button>
+        <button *ngIf="modalType=='add' && userId!=''" type="button" class="btn btn-primary"
+          (click)="addContactByAdmin()">Add</button>
+        <button *ngIf="modalType=='edit' && userId!=''" type="button" class="btn btn-primary"
+          (click)="updateContactByAdmin()">Update</button>
       </div>
     </div>
   </div>
+</div>

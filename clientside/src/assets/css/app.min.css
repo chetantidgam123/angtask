@@ -5343,4 +5343,8 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before {
   margin: 0 auto
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 /*# sourceMappingURL=app.min.css.map */

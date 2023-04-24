@@ -6,6 +6,7 @@ import { LayoutComponent } from './layout.component';
 import { AuthGuard } from '../gaurd/auth.guard';
 import { ContactsComponent } from '../components/contacts/contacts.component';
 import { ProfileComponent } from '../components/profile/profile.component';
+import { AdminUsersComponent } from '../components/admin-users/admin-users.component';
 
 const routes: Routes = [{
   path: '',
@@ -20,16 +21,24 @@ const routes: Routes = [{
       component: ContactsComponent
     },
     {
+      path: 'contacts/:id',
+      component: ContactsComponent
+    },
+    {
       path: 'profile',
       component: ProfileComponent
+    },
+    {
+      path: 'admin-users',
+      component: AdminUsersComponent
     }
   ],
   canActivate: [AuthGuard]
 },
-  {
-    path: 'signin',
-    component: SigninComponent
-  },
+{
+  path: 'signin',
+  component: SigninComponent
+},
 ];
 
 @NgModule({

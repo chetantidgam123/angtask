@@ -1,25 +1,72 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link"[routerLink]="['/contacts']" routerLinkActive="router-link-active" >Contacts</a>
-          </li>
-        </ul>
-        <div class="d-flex">
-          <div class="dropdown parentNav">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa fa-user"></i>
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" [routerLink]="['/profile']" routerLinkActive="router-link-active" >Profile</a></li>
-              <li><a class="dropdown-item" href="#">Logout</a></li>
-            </ul>
-          </div>
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/contacts']" routerLinkActive="router-link-active">Contacts</a>
+        </li>
+        <li *ngIf="admin=='admin'" class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin-users']" routerLinkActive="router-link-active">Users</a>
+        </li>
+      </ul>
+      <div class="d-flex">
+        <div class="dropdown parentNav">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <i class="fa fa-user"></i>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" [routerLink]="['/profile']" routerLinkActive="router-link-active">Profile</a>
+            </li>
+            <li><a class="dropdown-item pointer" data-bs-toggle="modal" data-bs-target="#resetPassModel">Change
+                Password</a>
+            </li>
+            <li><a class="dropdown-item pointer" (click)="logout()">Logout</a></li>
+          </ul>
         </div>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>
+<div class="modal fade" id="resetPassModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="resetPassModelLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="resetPassModelLabel">Reset Password</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-2">
+          <label for="oldpass" class="col-form-label">Old Password</label>
+          <div class="">
+            <input type="password" [(ngModel)]="oldpass" name="oldpass" class="form-control" id="oldpass">
+          </div>
+          <small *ngIf="oldpass==''  && submitted" class="text-danger">Password Required</small>
+        </div>
+        <div class="mb-2">
+          <label for="newpass" class="col-form-label">New Password</label>
+          <div class="">
+            <input type="password" [(ngModel)]="newpass" name="newpass" class="form-control" id="newpass">
+          </div>
+          <small *ngIf="newpass==''  && submitted" class="text-danger">Password Required</small>
+        </div>
+        <div class="mb-2">
+          <label for="cnfpass" class="col-form-label">Confirm Password</label>
+          <div class="">
+            <input type="password" [(ngModel)]="cnfpass" name="cnfpass" class="form-control" id="cnfpass">
+          </div>
+          <small *ngIf="cnfpass==''  && submitted" class="text-danger">Password Required</small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button class="btn btn-primary" (click)="resetPass()">Reset</button>
+      </div>
+    </div>
+  </div>
+</div>

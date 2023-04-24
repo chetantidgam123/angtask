@@ -1,0 +1,39 @@
+
+<div class="container w-30 mx-auto">
+    <form action="" [formGroup]="form">
+        <div class="mb-2">
+            <label for="firstname"   class="col-sm-2 col-form-label">Firstname</label>
+            <div class="">
+              <input type="text" formControlName="firstname" name="firstname" class="form-control" id="firstname">
+            </div>
+            <small *ngIf="form.controls['firstname'].invalid  && submitted"  class="text-danger">Name Required</small>
+          </div>
+        <div class="mb-2">
+            <label for="lastname"   class="col-sm-2 col-form-label">Lastname</label>
+            <div class="">
+              <input type="text" formControlName="lastname" name="lastname" class="form-control" id="lastname"  >
+            </div>
+            <small *ngIf="form.controls['lastname'].invalid  && submitted"  class="text-danger">Lastname Required</small>
+
+          </div>
+          <div class="mb-2">
+            <label for="email"  class="col-sm-2 col-form-label">Email</label>
+            <div class="">
+              <input type="text" formControlName="email" name="email" class="form-control" id="email" >
+            </div>
+            <small *ngIf="form.controls['email'].invalid  && submitted"  class="text-danger">Email Required</small>
+          </div>
+        <div class="mb-2">
+            <label for="Phone"  class="col-sm-2 col-form-label">Phone</label>
+            <div class="">
+              <input type="text" formControlName="phone" name="Phone" class="form-control" id="Phone" maxlength="10">
+            </div>
+            <small *ngIf="form.controls['phone'].invalid  && submitted"  class="text-danger">Phone Required</small>
+          </div>
+      </form>
+</div>
+<div class="mt-2 container w-30 mx-auto">
+    <button class="btn btn-secondary mx-2" (click)="enableEdit()">Edit Profile</button>
+    <button *ngIf="!editenable" class="btn btn-secondary" (click)="updateProfile()">Update</button>
+</div>
+
